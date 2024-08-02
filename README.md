@@ -5,7 +5,7 @@
 
 ## About
 
-This forked project is unaffiliated with the mainline Simply Love GitHub page - this is a customized edit to support DDR playstyle with all current features of the theme.
+This forked project is unaffiliated with the mainline Simply Love GitHub page - this is a customized edit to support DDR playstyle with all current features of the theme. This *currently* replaces the regular ITG mode of gameplay. This isn't fully tested, so my suggestion is to make another profile (or duplicate it) before using this to play; I didn't change the way scores are saved/read if you've already been using Simply Love, only how it's displayed in-game and during the evaluation screen.
 
 Simply Love is a StepMania 5 theme for the post-ITG community.
 
