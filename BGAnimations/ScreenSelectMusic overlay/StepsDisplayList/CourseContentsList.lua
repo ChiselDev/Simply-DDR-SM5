@@ -1,7 +1,6 @@
 local numItemsToDraw = 8
 local PrevCurrentItem = 0
 local SecondsToPause = 0.5
-local PaneWidth = 320
 
 local transform_function = function(self,offsetFromCenter,itemIndex,numitems)
 	self:y( offsetFromCenter * 23 )
@@ -53,8 +52,8 @@ local af = Def.ActorFrame{
 	-- lower mask
 	Def.Quad{
 		InitCommand=function(self)
-			self:xy(0, 98)
-				:zoomto(PaneWidth, 40)
+			self:xy(IsUsingWideScreen() and -44 or 0,98)
+				:zoomto(_screen.w/2, 40)
 				:MaskSource()
 		end
 	},
@@ -63,8 +62,8 @@ local af = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=function(self)
 			self:vertalign(bottom)
-				:xy(0, -18)
-				:zoomto(PaneWidth, 100)
+				:xy(IsUsingWideScreen() and -44 or 0,-18)
+				:zoomto(_screen.w/2, 100)
 				:MaskSource()
 		end
 	},
@@ -73,7 +72,7 @@ local af = Def.ActorFrame{
 	-- gray background Quad
 	Def.Quad{
 		InitCommand=function(self)
-			self:diffuse(color("#1e282f")):zoomto(PaneWidth, 96)
+			self:diffuse(color("#1e282f")):zoomto(320, 96)
 				:xy(0, 30)
 
 			if ThemePrefs.Get("RainbowMode") then

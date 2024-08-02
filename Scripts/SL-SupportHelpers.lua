@@ -80,6 +80,11 @@ function IsITGmania()
 	return ProductFamily() == "ITGmania"
 end
 
+function IsDDRMania()
+	if type(ProductFamily) ~= "function" then return false end
+	return ProductFamily() == "DDRMania"
+end
+
 
 -- -----------------------------------------------------------------------
 -- use StepManiaVersionIsSupported() to check if Simply Love supports the version of SM5 in use
@@ -98,9 +103,13 @@ StepManiaVersionIsSupported = function()
 		return IsMinimumProductVersion(0, 4)
 	end
 
-	-- ITGmania >= 0.8.0
+	-- ITGmania >= 0.5.1
 	if IsITGmania() then
-		return IsMinimumProductVersion(0, 8, 0)
+		return IsMinimumProductVersion(0, 5, 1)
+	end
+
+	if IsDDRMania() then
+		return IsMinimumProductVersion(0, 5, 1)
 	end
 
 	return false

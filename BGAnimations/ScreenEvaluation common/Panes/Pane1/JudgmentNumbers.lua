@@ -42,7 +42,8 @@ for i=1,#TapNoteScores.Types do
 			-- if some TimingWindows were turned off, the leading 0s should not
 			-- be colored any differently than the (lack of) JudgmentNumber,
 			-- so load a unique Metric group.
-			if SL[pn].ActiveModifiers.TimingWindows[i]==false and i ~= #TapNoteScores.Types then
+			local gmods = SL.Global.ActiveModifiers
+			if gmods.TimingWindows[i]==false and i ~= #TapNoteScores.Types then
 				self:Load("RollingNumbersEvaluationNoDecentsWayOffs")
 				self:diffuse(color("#444444"))
 
@@ -68,7 +69,7 @@ for index, RCType in ipairs(RadarCategories.Types) do
 	if index == 1 and SL.Global.GameMode == "FA+" then
 		t[#t+1] = LoadFont("Wendy/_wendy white")..{
 			Name="Percent",
-			Text=("%.2f"):format(CalculateExScore(player)),
+			Text=(CalculateExScore(player)),
 			InitCommand=function(self)
 				self:horizalign(right):zoom(0.4)
 				self:x( ((controller == PLAYER_1) and -114) or 286 )

@@ -1,10 +1,20 @@
 local player, controller = unpack(...)
 
 local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
-local PercentDP = stats:GetPercentDancePoints()
-local percent = FormatPercentScore(PercentDP)
--- Format the Percentage string, removing the % symbol
-percent = percent:gsub("%%", "")
+local percent = 0
+
+local StepsOrTrail = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(player)) or GAMESTATE:GetCurrentSteps(player)
+
+local total_tapnotes = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_TapsAndHolds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Holds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Rolls" )
+local w1=stats:GetTapNoteScores('TapNoteScore_W1');
+local w2=stats:GetTapNoteScores('TapNoteScore_W2');
+local w3=stats:GetTapNoteScores('TapNoteScore_W3');
+local hd=stats:GetHoldNoteScores('HoldNoteScore_Held');
+if PREFSMAN:GetPreference("AllowW1")~="AllowW1_Everywhere" then
+	w1=w1+w2;
+	w2=0;
+end;
+percent = (math.round( (w1 + w2 + w3/2+hd)*100000/total_tapnotes-(w2 + w3))*10);
 
 return Def.ActorFrame{
 	Name="PercentageContainer"..ToEnumShortString(player),
@@ -31,7 +41,7 @@ return Def.ActorFrame{
 		Name="Percent",
 		Text=percent,
 		InitCommand=function(self)
-			self:horizalign(right):zoom(0.585)
+			self:horizalign(right):zoom(0.45)
 			self:x( (controller == PLAYER_1 and 1.5 or 141))
 		end
 	}

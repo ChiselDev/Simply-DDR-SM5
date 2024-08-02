@@ -39,8 +39,8 @@ local t = Def.ActorFrame{
 
 -- The FA+ window shares the status as the FA window.
 -- If the FA window is disabled, then we consider the FA+ window disabled as well.
-local windows = {SL[pn].ActiveModifiers.TimingWindows[1]}
-for v in ivalues( SL[pn].ActiveModifiers.TimingWindows) do
+local windows = {SL.Global.ActiveModifiers.TimingWindows[1]} 
+for v in ivalues( SL.Global.ActiveModifiers.TimingWindows) do
 	windows[#windows + 1] = v
 end
 
@@ -95,7 +95,7 @@ for index, RCType in ipairs(RadarCategories.Types) do
 	if index == 1 then
 		t[#t+1] = LoadFont("Wendy/_wendy white")..{
 			Name="Percent",
-			Text=("%.2f"):format(percent),
+			Text=percent,
 			InitCommand=function(self)
 				self:horizalign(right):zoom(0.4)
 				self:x( ((controller == PLAYER_1) and -114) or 286 )

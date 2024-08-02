@@ -2,16 +2,27 @@ local player, controller = unpack(...)
 
 local percent = nil
 local diffuse = nil
+local StepsOrTrail = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(player)) or GAMESTATE:GetCurrentSteps(player)
 
 if SL[ToEnumShortString(player)].ActiveModifiers.ShowEXScore then
 	percent = CalculateExScore(player)
 	diffuse = SL.JudgmentColors[SL.Global.GameMode][1]
 else
 	local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
-	local PercentDP = stats:GetPercentDancePoints()
-	percent = FormatPercentScore(PercentDP):gsub("%%", "")
-	-- Format the Percentage string, removing the % symbol
-	percent = tonumber(percent)
+
+	local total_tapnotes = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_TapsAndHolds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Holds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Rolls" )
+
+
+	local w1=stats:GetTapNoteScores('TapNoteScore_W1');
+	local w2=stats:GetTapNoteScores('TapNoteScore_W2');
+	local w3=stats:GetTapNoteScores('TapNoteScore_W3');
+	local hd=stats:GetHoldNoteScores('HoldNoteScore_Held');
+	if PREFSMAN:GetPreference("AllowW1")~="AllowW1_Everywhere" then
+		w1=w1+w2;
+		w2=0;
+	end;
+	percent = (math.round( (w1 + w2 + w3/2+hd)*100000/total_tapnotes-(w2 + w3))*10);
+
 	diffuse = Color.White
 end
 
@@ -39,9 +50,9 @@ return Def.ActorFrame{
 
 	LoadFont("Wendy/_wendy white")..{
 		Name="Percent",
-		Text=("%.2f"):format(percent),
+		Text=percent,
 		InitCommand=function(self)
-			self:horizalign(right):zoom(0.585)
+			self:horizalign(right):zoom(0.45)
 			self:x( (controller == PLAYER_1 and 1.5 or 141))
 			self:diffuse(diffuse)
 		end

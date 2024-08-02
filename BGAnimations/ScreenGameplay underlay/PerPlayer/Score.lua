@@ -33,7 +33,7 @@ local pos = {
 local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
 
 local StepsOrTrail = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(player)) or GAMESTATE:GetCurrentSteps(player)
-local total_tapnotes = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Notes" )
+local total_tapnotes = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_TapsAndHolds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Holds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Rolls" )
 
 -- determine how many digits are needed to express the number of notes in base-10
 local digits = (math.floor(math.log10(total_tapnotes)) + 1)
@@ -53,7 +53,7 @@ local zoom_factor = clamp(scale(GetScreenAspectRatio(), 16/10, 16/9, ar_scale.si
 -- -----------------------------------------------------------------------
 
 return LoadFont("Wendy/_wendy monospace numbers")..{
-	Text="0.00",
+	Text="0",
 	Name=pn.."Score",
 	InitCommand=function(self)
 		self:valign(1):horizalign(right)
@@ -133,16 +133,36 @@ return LoadFont("Wendy/_wendy monospace numbers")..{
 	end,
 	RedrawScoreCommand=function(self)
 		if not IsEX then
-			local dance_points = pss:GetPercentDancePoints()
-			local percent = FormatPercentScore( dance_points ):sub(1,-2)
-			self:settext(percent)
+			local w1=pss:GetTapNoteScores('TapNoteScore_W1')
+			local w2=pss:GetTapNoteScores('TapNoteScore_W2')
+			local w3=pss:GetTapNoteScores('TapNoteScore_W3')
+			local hd=pss:GetHoldNoteScores('HoldNoteScore_Held')
+			if PREFSMAN:GetPreference("AllowW1")~="AllowW1_Everywhere" then
+				w1=w1+w2
+				w2=0
+			end
+
+			self:settext((math.round( (w1 + w2 + w3/2+hd)*100000/total_tapnotes-(w2 + w3))*10))
 		end
 	end,
 	ExCountsChangedMessageCommand=function(self, params)
 		if params.Player ~= player then return end
 
 		if IsEX then
-			self:settext(("%.02f"):format(params.ExScore))
+			local w1 = pss:GetTapNoteScores('TapNoteScore_W1');
+			local w2 = pss:GetTapNoteScores('TapNoteScore_W2');
+			local w3 = pss:GetTapNoteScores('TapNoteScore_W3');
+			local hd = pss:GetHoldNoteScores('HoldNoteScore_Held');
+			if params.HoldNoteScore == 'HoldNoteScore_Held' then
+				hd = hd+1;
+			elseif params.TapNoteScore == 'TapNoteScore_W1' then
+				w1 = w1+1;
+			elseif params.TapNoteScore == 'TapNoteScore_W2' then
+				w2 = w2+1;
+			elseif params.TapNoteScore == 'TapNoteScore_W3' then
+				w3 = w3+1;
+			end;
+			self:settext(w1*3 + w2*2 + w3*1 + hd*3)
 		end
 	end,
 }

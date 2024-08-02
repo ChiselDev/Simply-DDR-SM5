@@ -12,7 +12,6 @@ local PlayerDefaults = {
 				NoteSkin = nil,
 				Mini = "0%",
 				BackgroundFilter = "Off",
-				VisualDelay = "0ms",
 
 				HideTargets = false,
 				HideSongBG = false,
@@ -27,7 +26,6 @@ local PlayerDefaults = {
 				MeasureCounter = "None",
 				MeasureCounterLeft = true,
 				MeasureCounterUp = false,
-				MeasureLines = "Off",
 				DataVisualizations = "None",
 				TargetScore = 11,
 				ActionOnMissedTarget = "Nothing",
@@ -43,10 +41,6 @@ local PlayerDefaults = {
 				ErrorBarMultiTick = false,
 				ErrorBarTrim = "Off",
 
-				HideEarlyDecentWayOffJudgments = false,
-				HideEarlyDecentWayOffFlash = false,
-
-				TimingWindows = {true, true, true, true, true},
 				ShowFaPlusWindow = false,
 				ShowEXScore = false,
 				ShowFaPlusPane = true,
@@ -103,7 +97,6 @@ local PlayerDefaults = {
 			self.ApiKey = ""
 			-- Whether or not the player is playing on pad.
 			self.IsPadPlayer = false
-			self.Favorites = {}
 		end
 	}
 }
@@ -116,6 +109,7 @@ local GlobalDefaults = {
 		initialize = function(self)
 			self.ActiveModifiers = {
 				MusicRate = 1.0,
+				TimingWindows = {true, true, true, true, true},
 			}
 			self.Stages = {
 				PlayedThisGame = 0,
@@ -194,89 +188,87 @@ SL = {
 	-- These judgment colors are used for text & numbers on dark backgrounds:
 	JudgmentColors = {
 		Casual = {
-			color("#21CCE8"),	-- blue
-			color("#e29c18"),	-- gold
-			color("#66c955"),	-- green
-			color("#b45cff"),	-- purple (greatly lightened)
-			color("#c9855e"),	-- peach?
-			color("#ff3030")	-- red (slightly lightened)
+			color("#bfeaff"),	-- blue
+			color("#fff568"),	-- gold
+			color("#48ff1d"),	-- green
+			color("#34bfff"),	-- purple (greatly lightened)
+			color("#0E0E0E"),	-- peach?
+			color("#ff3c3c")	-- red (slightly lightened)
 		},
 		ITG = {
-			color("#21CCE8"),	-- blue
-			color("#e29c18"),	-- gold
-			color("#66c955"),	-- green
-			color("#b45cff"),	-- purple (greatly lightened)
-			color("#c9855e"),	-- peach?
-			color("#ff3030")	-- red (slightly lightened)
+			color("#bfeaff"),	-- blue
+			color("#fff568"),	-- gold
+			color("#48ff1d"),	-- green
+			color("#34bfff"),	-- purple (greatly lightened)
+			color("#0E0E0E"),	-- peach?
+			color("#ff3c3c")	-- red (slightly lightened)
 		},
 		["FA+"] = {
-			color("#21CCE8"),	-- blue
+			color("#bfeaff"),	-- blue
 			color("#ffffff"),	-- white
-			color("#e29c18"),	-- gold
-			color("#66c955"),	-- green
-			color("#b45cff"),	-- purple (greatly lightened)
-			color("#ff3030")	-- red (slightly lightened)
+			color("#fff568"),	-- gold
+			color("#48ff1d"),	-- green
+			color("#34bfff"),	-- purple (greatly lightened)
+			color("#ff3c3c")	-- red (slightly lightened)
 		},
 	},
 	Preferences = {
 		Casual = {
-			TimingWindowAdd=0.0015,
+			TimingWindowAdd=0.0000,
 			RegenComboAfterMiss=0,
 			MaxRegenComboAfterMiss=0,
-			MinTNSToHideNotes="TapNoteScore_W3",
+			MinTNSToHideNotes="TapNoteScore_W4",
 			HarshHotLifePenalty=true,
 
 			PercentageScoring=true,
 			AllowW1="AllowW1_Everywhere",
 			SubSortByNumSteps=true,
 
-			TimingWindowSecondsW1=0.021500,
-			TimingWindowSecondsW2=0.043000,
-			TimingWindowSecondsW3=0.102000,
-			TimingWindowSecondsW4=0.102000,
-			TimingWindowSecondsW5=0.102000,
+			TimingWindowSecondsW1=0.017000,
+			TimingWindowSecondsW2=0.034000,
+			TimingWindowSecondsW3=0.103500,
+			TimingWindowSecondsW4=0.136500,
+			TimingWindowSecondsW5=0.000000,
 			TimingWindowSecondsHold=0.320000,
 			TimingWindowSecondsMine=0.070000,
 			TimingWindowSecondsRoll=0.350000,
 		},
 		ITG = {
-			TimingWindowAdd=0.0015,
+			TimingWindowAdd=0.0000,
 			RegenComboAfterMiss=5,
 			MaxRegenComboAfterMiss=10,
-			MinTNSToHideNotes="TapNoteScore_W3",
-			MinTNSToScoreNotes=ThemePrefs.Get("RescoreEarlyHits") and "TapNoteScore_W3" or "TapNoteScore_None",
+			MinTNSToHideNotes="TapNoteScore_W4",
 			HarshHotLifePenalty=true,
 
 			PercentageScoring=true,
 			AllowW1="AllowW1_Everywhere",
 			SubSortByNumSteps=true,
 
-			TimingWindowSecondsW1=0.021500,
-			TimingWindowSecondsW2=0.043000,
-			TimingWindowSecondsW3=0.102000,
-			TimingWindowSecondsW4=0.135000,
-			TimingWindowSecondsW5=0.180000,
+			TimingWindowSecondsW1=0.017000,
+			TimingWindowSecondsW2=0.034000,
+			TimingWindowSecondsW3=0.103500,
+			TimingWindowSecondsW4=0.136500,
+			TimingWindowSecondsW5=0.000000,
 			TimingWindowSecondsHold=0.320000,
 			TimingWindowSecondsMine=0.070000,
 			TimingWindowSecondsRoll=0.350000,
 		},
 		["FA+"] = {
-			TimingWindowAdd=0.0015,
+			TimingWindowAdd=0.0000,
 			RegenComboAfterMiss=5,
 			MaxRegenComboAfterMiss=10,
-			MinTNSToHideNotes="TapNoteScore_W4",
-			MinTNSToScoreNotes=ThemePrefs.Get("RescoreEarlyHits") and "TapNoteScore_W4" or "TapNoteScore_None",
+			MinTNSToHideNotes="TapNoteScore_W5",
 			HarshHotLifePenalty=true,
 
 			PercentageScoring=true,
 			AllowW1="AllowW1_Everywhere",
 			SubSortByNumSteps=true,
 
-			TimingWindowSecondsW1=0.013500,
-			TimingWindowSecondsW2=0.021500,
-			TimingWindowSecondsW3=0.043000,
-			TimingWindowSecondsW4=0.102000,
-			TimingWindowSecondsW5=0.135000,
+			TimingWindowSecondsW1=0.012500,
+			TimingWindowSecondsW2=0.017000,
+			TimingWindowSecondsW3=0.034000,
+			TimingWindowSecondsW4=0.103500,
+			TimingWindowSecondsW5=0.136500,
 			TimingWindowSecondsHold=0.320000,
 			-- NOTE(teejusb): FA+ mode previously had mines set to
 			-- 65ms instead of the actual window size of 70ms. This
@@ -337,26 +329,26 @@ SL = {
 			InitialValue=0.5,
 		},
 		ITG = {
-			PercentScoreWeightW1=5,
-			PercentScoreWeightW2=4,
-			PercentScoreWeightW3=2,
+			PercentScoreWeightW1=3,
+			PercentScoreWeightW2=2,
+			PercentScoreWeightW3=1,
 			PercentScoreWeightW4=0,
-			PercentScoreWeightW5=-6,
-			PercentScoreWeightMiss=-12,
+			PercentScoreWeightW5=0,
+			PercentScoreWeightMiss=0,
 			PercentScoreWeightLetGo=0,
-			PercentScoreWeightHeld=IsGame("pump") and 0 or 5,
-			PercentScoreWeightHitMine=-6,
+			PercentScoreWeightHeld=3,
+			PercentScoreWeightHitMine=-3,
 			PercentScoreWeightCheckpointHit=0,
 
-			GradeWeightW1=5,
-			GradeWeightW2=4,
-			GradeWeightW3=2,
+			GradeWeightW1=3,
+			GradeWeightW2=2,
+			GradeWeightW3=1,
 			GradeWeightW4=0,
-			GradeWeightW5=-6,
-			GradeWeightMiss=-12,
+			GradeWeightW5=0,
+			GradeWeightMiss=0,
 			GradeWeightLetGo=0,
-			GradeWeightHeld=IsGame("pump") and 0 or 5,
-			GradeWeightHitMine=-6,
+			GradeWeightHeld=3,
+			GradeWeightHitMine=-3,
 			GradeWeightCheckpointHit=0,
 
 			LifePercentChangeW1=0.008,
@@ -365,33 +357,33 @@ SL = {
 			LifePercentChangeW4=0.000,
 			LifePercentChangeW5=-0.050,
 			LifePercentChangeMiss=-0.100,
-			LifePercentChangeLetGo=IsGame("pump") and 0.000 or -0.080,
-			LifePercentChangeHeld=IsGame("pump") and 0.000 or 0.008,
+			LifePercentChangeLetGo=-0.080,
+			LifePercentChangeHeld=0.008,
 			LifePercentChangeHitMine=-0.050,
 
 			InitialValue=0.5,
 		},
 		["FA+"] = {
-			PercentScoreWeightW1=5,
-			PercentScoreWeightW2=5,
-			PercentScoreWeightW3=4,
-			PercentScoreWeightW4=2,
+			PercentScoreWeightW1=3.5,
+			PercentScoreWeightW2=3,
+			PercentScoreWeightW3=2,
+			PercentScoreWeightW4=1,
 			PercentScoreWeightW5=0,
-			PercentScoreWeightMiss=-12,
+			PercentScoreWeightMiss=-3,
 			PercentScoreWeightLetGo=0,
-			PercentScoreWeightHeld=IsGame("pump") and 0 or 5,
-			PercentScoreWeightHitMine=-6,
+			PercentScoreWeightHeld=3,
+			PercentScoreWeightHitMine=-3,
 			PercentScoreWeightCheckpointHit=0,
 
-			GradeWeightW1=5,
-			GradeWeightW2=5,
-			GradeWeightW3=4,
-			GradeWeightW4=2,
+			GradeWeightW1=3,
+			GradeWeightW2=3,
+			GradeWeightW3=2,
+			GradeWeightW4=1,
 			GradeWeightW5=0,
-			GradeWeightMiss=-12,
+			GradeWeightMiss=-3,
 			GradeWeightLetGo=0,
-			GradeWeightHeld=IsGame("pump") and 0 or 5,
-			GradeWeightHitMine=-6,
+			GradeWeightHeld=3,
+			GradeWeightHitMine=-3,
 			GradeWeightCheckpointHit=0,
 
 			LifePercentChangeW1=0.008,
@@ -400,8 +392,8 @@ SL = {
 			LifePercentChangeW4=0.004,
 			LifePercentChangeW5=0,
 			LifePercentChangeMiss=-0.1,
-			LifePercentChangeLetGo=IsGame("pump") and 0.000 or -0.080,
-			LifePercentChangeHeld=IsGame("pump") and 0.000 or 0.008,
+			LifePercentChangeLetGo=-0.080,
+			LifePercentChangeHeld=0.008,
 			LifePercentChangeHitMine=-0.05,
 
 			InitialValue=0.5,
@@ -411,7 +403,7 @@ SL = {
 		-- W0 is not necessarily a "real" window.
 		-- In ITG mode it is emulated based off the value of TimingWindowW1 defined
 		-- for FA+ mode.
-		W0=3.5,
+		W0=3,
 		W1=3,
 		W2=2,
 		W3=1,
@@ -419,15 +411,15 @@ SL = {
 		W5=0,
 		Miss=0,
 		LetGo=0,
-		Held=1,
-		HitMine=-1
+		Held=3,
+		HitMine=-3
 	},
-	-- Fields used to determine whether or not we can connect to the
-	-- GrooveStats services.
+	-- Fields used to determine the existence of the launcher and the
+	-- available GrooveStats services.
 	GrooveStats = {
-		-- Whether we're connected to the internet or not.
+		-- Whether we're launching StepMania with a launcher.
 		-- Determined once on boot in ScreenSystemLayer.
-		IsConnected = false,
+		Launcher = false,
 
 		-- Available GrooveStats services. Subject to change while
 		-- StepMania is running.
@@ -440,39 +432,8 @@ SL = {
 		-- *  and when GrooveStats backend is also      *
 		-- *   updated to properly consume this value.  *
 		-- **********************************************
-		ChartHashVersion = 3,
-
-		-- We want to cache the some of the requests/responses to prevent making the
-		-- same request multiple times in a small timeframe.
-		-- Each entry is keyed with some string hash which maps to a table with the
-		-- following keys:
-		--   Response: string, the JSON-ified response to cache
-		--   Timestamp: number, when the request was made
-		RequestCache = {},
-
-		-- Used to prevent redundant downloads for SRPG unlocks.
-		-- Each entry is keyed on the URL of the download which maps to a table of
-		-- PackNames the unlock has been unpacked to.
-		-- To see if we have already downloaded an unlock, one can just key on
-		-- SL.UnlocksCache[url][packName]
-		-- LoadUnlocksCache() is defined in SL-Helpers-GrooveStats.lua so that must
-		-- be loaded before this file.
-		UnlocksCache = LoadUnlocksCache(),
-	},
-	-- Stores all active/failed downloads.
-	-- Each entry is keyed on a string UUID which maps to a table with the
-	-- following keys:
-	--    Request: HttpRequestFuture, the closure returned by NETWORK:HttpRequest
-	--    Name: string, an identifier for this download.
-	--    Url: string, The URL of the download.
-	--    Destination: string, where the download should be unpacked to.
-	--    CurrentBytes: number, the bytes downloaded so far
-	--    TotalBytes: number, the total bytes of the file
-	--    Complete: bool, whether or not the download has completed
-	--              (either success or failure).
-	-- If a request fails, there will be another key:
-	--    ErrorMessage: string, the reasoning for the failure.
-	Downloads = {}
+		ChartHashVersion = 573, -- do NOT submit non-ITG setting scores to groovestats.
+	}
 }
 
 

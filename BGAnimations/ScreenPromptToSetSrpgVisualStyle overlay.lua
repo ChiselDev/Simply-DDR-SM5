@@ -23,12 +23,12 @@ local InputHandler = function(event)
 			af:queuecommand("DirectionButton")
 
 		elseif event.GameButton == "Start" then
-			-- if the player wants to change to the SRPG8 style.
+			-- if the player wants to change to the SRPG7 style.
 			if active_index == 0 then
-				SL.SRPG8:ActivateVisualStyle()
+				SL.SRPG7:ActivateVisualStyle()
 			-- Set the event so that this screen doesn't show up again.
 			else
-				ThemePrefs.Set("LastActiveEvent", "SRPG8")
+				ThemePrefs.Set("LastActiveEvent", "SRPG7")
 			end
 
 			local top_screen = SCREENMAN:GetTopScreen()

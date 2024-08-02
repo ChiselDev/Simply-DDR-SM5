@@ -1,4 +1,4 @@
-local player, displayProfileNames = unpack(...)
+local player = ...
 
 local LetterGradesAF
 local playerStats
@@ -26,7 +26,7 @@ elseif player == PLAYER_2 then
 	col1x = 90
 	col2x = _screen.w/2.5
 	gradex = _screen.w/3.33
-	align1 = left
+	align1= left
 	align2 = right
 end
 
@@ -39,7 +39,6 @@ local af = Def.ActorFrame{
 		playerStats = SL[ToEnumShortString(player)].Stages.Stats[params.StageNum]
 
 		if playerStats then
-			profile = playerStats.profile
 			steps = playerStats.steps
 	 		meter = playerStats.meter
 	 		difficulty = playerStats.difficulty
@@ -50,35 +49,14 @@ local af = Def.ActorFrame{
 	end
 }
 
--- profile name (only if there were any profile switches happening this session)
-if displayProfileNames then
-	af[#af+1] = LoadFont("Common Normal")..{
-		InitCommand=function(self) self:zoom(0.5):horizalign(align1):x(col1x):y(-43) end,
-		DrawStageCommand=function(self)
-			if playerStats and profile then
-				self:settext(profile)
-			else
-				self:settext("")
-			end
-		end
-	}
-end
-
--- percent score
+--percent score
 af[#af+1] = LoadFont("Common Bold")..{
 	InitCommand=function(self) self:zoom(0.5):horizalign(align1):x(col1x):y(-24) end,
 	DrawStageCommand=function(self)
 		if playerStats and score then
 		
-			if playerStats and playerStats.showex then
-				self:zoom(0.38):horizalign(align1):x(col1x):y(-12)
-			else
-				self:horizalign(align1):x(col1x)
-				if playerStats and playerStats.judgments.W0 then
-					self:zoom(0.48):y(-32)
-				else
-					self:zoom(0.5):y(-24)
-				end
+			if playerStats.judgments and playerStats.judgments.W0 then
+				self:zoom(0.48):y(-32)
 			end
 
 			-- trim off the % symbol
@@ -106,12 +84,6 @@ af[#af+1] = LoadFont("Common Bold")..{
 			self:settext(("%.2f"):format(playerStats.exscore)):diffuse(Colors[1])
 		else
 			self:settext("")
-		end
-		
-		if playerStats and playerStats.showex then
-			self:zoom(0.48):y(-32):horizalign(align1):x(col1x)
-		else
-			self:zoom(0.38):horizalign(align1):x(col1x):y(-12)
 		end
 	end
 }
@@ -215,7 +187,7 @@ for i=1,#TNSTypes do
 				local val = playerStats.judgments[TNSTypes[i]]
 				if val then self:settext(val) end
 
-				self:visible( (i == 1 and playerStats.judgments.W0 ~= nil) or playerStats.timingwindows[i-1] or i==#TNSTypes )
+				self:visible( (i == 1 and SL.Global.Stages.Stats[params.StageNum].TimingWindows[1]) or SL.Global.Stages.Stats[params.StageNum].TimingWindows[i-1] or i==#TNSTypes )
 			else
 				self:settext("")
 			end
