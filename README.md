@@ -5,6 +5,8 @@
 
 ## About
 
+This forked project is unaffiliated with the mainline Simply Love GitHub page - this is a customized edit to support DDR playstyle with all current features of the theme.
+
 Simply Love is a StepMania 5 theme for the post-ITG community.
 
 It features a clean and simple design, offers numerous data-driven features not implemented by the StepMania 5 engine, and allows the current generation of ITG fans to breathe new life into the game they've known for over a decade.
