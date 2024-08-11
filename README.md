@@ -83,7 +83,7 @@ The aspect ratio can be changed under *Graphics / Sound Options*.
 ![Gameplay](https://i.imgur.com/6PRBIHil.png)
 ![twenty-one nine gameplay](https://i.imgur.com/rl6WibDl.png)
 ![Player Options](https://i.imgur.com/Jk5A4LTl.png)
-![Evaluation](https://i.imgur.com/VamMT1Ql.png)
+![Evaluation](https://imgur.com/2Mdk1Za)
 ![Select Profile](https://i.imgur.com/1SsDc90l.png)
 ![Visual Themes](https://i.imgur.com/AQeRafLl.png)
 
