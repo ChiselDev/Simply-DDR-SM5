@@ -190,7 +190,7 @@ end
 GetComboThreshold = function( MaintainOrContinue )
 
 	local Combo = {}
-	Combo.dance = { Maintain = "TapNoteScore_W3", Continue = "TapNoteScore_W3" }
+	Combo.dance = { Maintain = "TapNoteScore_W4", Continue = "TapNoteScore_W4" }
 	Combo.pump  = { Maintain = "TapNoteScore_W4", Continue = "TapNoteScore_W4" }
 	Combo.techno= { Maintain = "TapNoteScore_W3", Continue = "TapNoteScore_W3" }
 	Combo.kb7   = { Maintain = "TapNoteScore_W4", Continue = "TapNoteScore_W4" }
