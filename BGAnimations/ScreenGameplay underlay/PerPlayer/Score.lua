@@ -56,8 +56,13 @@ return LoadFont("Wendy/_wendy monospace numbers")..{
 	Text="0",
 	Name=pn.."Score",
 	InitCommand=function(self)
-		self:valign(1):horizalign(right)
-		self:zoom(0.5)
+		self:valign(1)
+		if player==PLAYER_1 then
+			self:horizalign(left)
+		else
+			self:horizalign(right)
+		end
+		self:zoom(0.4)
 		if IsEX then
 			-- If EX Score, let's diffuse it to be the same as the FA+ top window.
 			-- This will make it consistent with the EX Score Pane.
@@ -84,6 +89,12 @@ return LoadFont("Wendy/_wendy monospace numbers")..{
 
 		-- assume "normal" score positioning first, but there are many reasons it will need to be moved
 		self:xy( pos[player].x, pos[player].y )
+
+		if player==PLAYER_1 then
+			self:x(pos[player].x - 120)
+		else
+			self:x(pos[player].x + 10)
+		end
 
 		if mods.NPSGraphAtTop and styletype ~= "OnePlayerTwoSides" then
 			-- if NPSGraphAtTop and Step Statistics and not double,
@@ -133,35 +144,46 @@ return LoadFont("Wendy/_wendy monospace numbers")..{
 	end,
 	RedrawScoreCommand=function(self)
 		if not IsEX then
-			local w1=pss:GetTapNoteScores('TapNoteScore_W1')
-			local w2=pss:GetTapNoteScores('TapNoteScore_W2')
-			local w3=pss:GetTapNoteScores('TapNoteScore_W3')
-			local hd=pss:GetHoldNoteScores('HoldNoteScore_Held')
-			if PREFSMAN:GetPreference("AllowW1")~="AllowW1_Everywhere" then
-				w1=w1+w2
-				w2=0
-			end
-
-			self:settext((math.round( (w1 + w2 + w3/2+hd)*100000/total_tapnotes-(w2 + w3))*10))
+			local w1 = 0
+			local w2 = 0
+			local w3 = 0
+			local w4 = 0
+			local hd = 0
+			--local am = 0 (avoided mines | doesn't fucking capture for some reason and i cba to debug)
+			w1 = pss:GetTapNoteScores('TapNoteScore_W1')
+			w2 = pss:GetTapNoteScores('TapNoteScore_W2')
+			w3 = pss:GetTapNoteScores('TapNoteScore_W3')
+			w4 = pss:GetTapNoteScores('TapNoteScore_W4')
+			hd = pss:GetHoldNoteScores('HoldNoteScore_Held')
+			--am = pss:GetTapNoteScores('TapNoteScore_AvoidMine')
+			
+			--self:settext(calcscore)
+			self:settext(math.round((w1 + w2 + w3*(0.6) + w4*(0.2) + hd) * 100000/total_tapnotes-(w2 + w3 + w4))*10)
 		end
 	end,
 	ExCountsChangedMessageCommand=function(self, params)
 		if params.Player ~= player then return end
 
 		if IsEX then
-			local w1 = pss:GetTapNoteScores('TapNoteScore_W1');
-			local w2 = pss:GetTapNoteScores('TapNoteScore_W2');
-			local w3 = pss:GetTapNoteScores('TapNoteScore_W3');
-			local hd = pss:GetHoldNoteScores('HoldNoteScore_Held');
-			if params.HoldNoteScore == 'HoldNoteScore_Held' then
-				hd = hd+1;
-			elseif params.TapNoteScore == 'TapNoteScore_W1' then
-				w1 = w1+1;
-			elseif params.TapNoteScore == 'TapNoteScore_W2' then
-				w2 = w2+1;
-			elseif params.TapNoteScore == 'TapNoteScore_W3' then
-				w3 = w3+1;
-			end;
+			local w1 = 0
+			local w2 = 0
+			local w3 = 0
+			local hd = 0
+
+			w1 = pss:GetTapNoteScores('TapNoteScore_W1');
+			w2 = pss:GetTapNoteScores('TapNoteScore_W2');
+			w3 = pss:GetTapNoteScores('TapNoteScore_W3');
+			hd = pss:GetHoldNoteScores('HoldNoteScore_Held');
+			
+			-- if params.HoldNoteScore == 'HoldNoteScore_Held' then
+			-- 	hd = hd+1;
+			-- elseif params.TapNoteScore == 'TapNoteScore_W1' then
+			-- 	w1 = w1+1;
+			-- elseif params.TapNoteScore == 'TapNoteScore_W2' then
+			-- 	w2 = w2+1;
+			-- elseif params.TapNoteScore == 'TapNoteScore_W3' then
+			-- 	w3 = w3+1;
+			-- end;
 			self:settext(w1*3 + w2*2 + w3*1 + hd*3)
 		end
 	end,

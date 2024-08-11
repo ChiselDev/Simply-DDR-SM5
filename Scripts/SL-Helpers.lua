@@ -754,7 +754,7 @@ CalculateExScore = function(player, ex_counts, use_actual_w0_weight)
 	local totalHolds = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Holds" )
 	local totalRolls = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Rolls" )
 
-	local W0Weight = use_actual_w0_weight and 3.5 or SL.ExWeights["W0"]
+	local W0Weight = 3
 	local total_possible = totalSteps * W0Weight + (totalHolds + totalRolls) * SL.ExWeights["Held"]
 
 	local total_points = 0
@@ -778,6 +778,7 @@ CalculateExScore = function(player, ex_counts, use_actual_w0_weight)
 		local value = counts[key]
 		if value ~= nil then
 			total_points = total_points + value * SL.ExWeights[key]
+			print(total_points, value)
 		end
 	end
 

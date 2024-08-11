@@ -100,6 +100,7 @@ for index, RCType in ipairs(RadarCategories.Types) do
 			BeginCommand=function(self)
 				self:x( ((controller == PLAYER_1) and -114) or 286 )
 				self:y((index-1)*35 + 53)
+				--self:settext(("/%03d"):format(possible))
 				self:settext(("/%03d"):format(possible))
 				local leadingZeroAttr = { Length=4-tonumber(tostring(possible):len()), Diffuse=color("#5A6166") }
 				self:AddAttribute(0, leadingZeroAttr )

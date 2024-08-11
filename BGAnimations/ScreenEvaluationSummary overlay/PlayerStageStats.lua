@@ -54,17 +54,26 @@ af[#af+1] = LoadFont("Common Bold")..{
 	InitCommand=function(self) self:zoom(0.5):horizalign(align1):x(col1x):y(-24) end,
 	DrawStageCommand=function(self)
 		if playerStats and score then
-		
+			
 			if playerStats.judgments and playerStats.judgments.W0 then
 				self:zoom(0.48):y(-32)
 			end
 
+			local stats = playerStats.steps
+			local total_tapnotes = stats:GetRadarValues(player):GetValue( "RadarCategory_TapsAndHolds" ) + stats:GetRadarValues(player):GetValue( "RadarCategory_Holds" ) + stats:GetRadarValues(player):GetValue( "RadarCategory_Rolls" )
+			local w1=(playerStats.judgments.W0 and playerStats.judgments.W0 or 0) + playerStats.judgments.W1;
+			local w2=playerStats.judgments.W2;
+			local w3=playerStats.judgments.W3;
+			local w4=playerStats.judgments.W4;
+			local hd=playerStats.judgments.Held;
+			score = (math.round((w1 + w2 + w3*(0.6) + w4*(0.2) + hd) * 100000/total_tapnotes-(w2 + w3 + w4))*10);
+
 			-- trim off the % symbol
-			local score = string.sub(FormatPercentScore(score),1,-2)
+			--local score = string.sub(FormatPercentScore(score),1,-2)
 
 			-- If the score is < 10.00% there will be leading whitespace, like " 9.45"
 			-- trim that too, so PLAYER_2's scores align properly.
-			score = score:gsub(" ", "")
+			--score = score:gsub(" ", "")
 			self:settext(score):diffuse(Color.White)
 
 			if grade and grade == "Grade_Failed" then
@@ -81,7 +90,7 @@ af[#af+1] = LoadFont("Common Bold")..{
 	InitCommand=function(self) self:zoom(0.38):horizalign(align1):x(col1x):y(-12) end,
 	DrawStageCommand=function(self)
 		if playerStats and playerStats.judgments and playerStats.judgments.W0 then
-			self:settext(("%.2f"):format(playerStats.exscore)):diffuse(Colors[1])
+			self:settext(playerStats.exscore):diffuse(Colors[1])
 		else
 			self:settext("")
 		end

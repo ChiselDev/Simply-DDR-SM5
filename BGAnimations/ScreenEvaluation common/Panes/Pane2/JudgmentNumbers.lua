@@ -2,6 +2,8 @@ local player, controller = unpack(...)
 
 local pn = ToEnumShortString(player)
 local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
+local StepsOrTrail = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(player)) or GAMESTATE:GetCurrentSteps(player)
+local total_tapnotes = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_TapsAndHolds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Holds" ) + StepsOrTrail:GetRadarValues(player):GetValue( "RadarCategory_Rolls" )
 
 local TapNoteScores = {
 	Types = { 'W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'Miss' },
@@ -84,10 +86,13 @@ for index, RCType in ipairs(RadarCategories.Types) do
 	-- Swap to displaying ITG score if we're showing EX score in gameplay.
 	local percent = nil
 	if SL[pn].ActiveModifiers.ShowEXScore then
-		local PercentDP = pss:GetPercentDancePoints()
-		percent = FormatPercentScore(PercentDP):gsub("%%", "")
-		-- Format the Percentage string, removing the % symbol
-		percent = tonumber(percent)
+		local w1=pss:GetTapNoteScores('TapNoteScore_W1');
+		local w2=pss:GetTapNoteScores('TapNoteScore_W2');
+		local w3=pss:GetTapNoteScores('TapNoteScore_W3');
+		local w4=pss:GetTapNoteScores('TapNoteScore_W4');
+		local hd=pss:GetHoldNoteScores('HoldNoteScore_Held');
+		percent = (math.round((w1 + w2 + w3*(0.6) + w4*(0.2) + hd) * 100000/total_tapnotes-(w2 + w3 + w4))*10);
+		--percent = tonumber(percent)
 	else
 		percent = CalculateExScore(player)
 	end
@@ -95,9 +100,9 @@ for index, RCType in ipairs(RadarCategories.Types) do
 	if index == 1 then
 		t[#t+1] = LoadFont("Wendy/_wendy white")..{
 			Name="Percent",
-			Text=percent,
+			Text=percent, -- IT'S THIS ONE CALLING FOR DDR SCORE
 			InitCommand=function(self)
-				self:horizalign(right):zoom(0.4)
+				self:horizalign(right):zoom(0.35)
 				self:x( ((controller == PLAYER_1) and -114) or 286 )
 				self:y(47)
 				

@@ -8,7 +8,8 @@ local TNSTypes = {
 	'TapNoteScore_W3',
 	'TapNoteScore_W4',
 	'TapNoteScore_W5',
-	'TapNoteScore_Miss'
+	'TapNoteScore_Miss',
+	'HoldNoteScore_Held'
 }
 
 return Def.Actor{
@@ -34,7 +35,8 @@ return Def.Actor{
 			W3 = pss:GetTapNoteScores(TNSTypes[3]),
 			W4 = pss:GetTapNoteScores(TNSTypes[4]),
 			W5 = pss:GetTapNoteScores(TNSTypes[5]),
-			Miss = pss:GetTapNoteScores(TNSTypes[6])
+			Miss = pss:GetTapNoteScores(TNSTypes[6]),
+			Held = pss:GetHoldNoteScores(TNSTypes[7])
 		}
 		
 		if mods.ShowFaPlusWindow and mods.ShowFaPlusPane then

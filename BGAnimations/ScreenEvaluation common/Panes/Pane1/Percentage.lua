@@ -9,12 +9,9 @@ local total_tapnotes = StepsOrTrail:GetRadarValues(player):GetValue( "RadarCateg
 local w1=stats:GetTapNoteScores('TapNoteScore_W1');
 local w2=stats:GetTapNoteScores('TapNoteScore_W2');
 local w3=stats:GetTapNoteScores('TapNoteScore_W3');
+local w4=stats:GetTapNoteScores('TapNoteScore_W4');
 local hd=stats:GetHoldNoteScores('HoldNoteScore_Held');
-if PREFSMAN:GetPreference("AllowW1")~="AllowW1_Everywhere" then
-	w1=w1+w2;
-	w2=0;
-end;
-percent = (math.round( (w1 + w2 + w3/2+hd)*100000/total_tapnotes-(w2 + w3))*10);
+percent = (math.round((w1 + w2 + w3*(0.6) + w4*(0.2) + hd) * 100000/total_tapnotes-(w2 + w3 + w4))*10);
 
 return Def.ActorFrame{
 	Name="PercentageContainer"..ToEnumShortString(player),
